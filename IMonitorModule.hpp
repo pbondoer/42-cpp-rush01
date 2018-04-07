@@ -3,19 +3,20 @@
 
 # include <iostream>
 
+enum ModuleType {
+	NONE,
+	STRING,
+	GRAPHIC
+};
+
 class	IMonitorModule {
 
 public:
 	virtual ~IMonitorModule( void ) = 0;
 
-	// void *		getData( void ) const {
-	// 	return this->_data;
-	// }
-    //
-	// void		setData( void * data ) {
-	// 	this->_data = data;
-	// }
-    //
+	virtual void			*getData(void) = 0;
+	virtual ModuleType		getType(void) = 0;
+
 	// bool		getRunning( void ) const {
 	// 	return this->_running;
 	// }
@@ -33,8 +34,7 @@ public:
 	// }
 
 protected:
-	bool		_running;
-	void *		_data;
+	virtual void	_update(void) = 0;
 };
 
 #endif

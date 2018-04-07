@@ -2,6 +2,7 @@
 #include "NcursesDisplay.hpp"
 #include "WxmacDisplay.hpp"
 #include "IMonitorModule.hpp"
+#include "HostnameModule.hpp"
 
 int		main(int ac, char **av) {
 	if (ac > 1) {
@@ -18,6 +19,21 @@ int		main(int ac, char **av) {
 	}
 	else {
 		// handle ncurses mode
+		std::list<IMonitorModule *> lst;
+
+		lst.push_back(new HostnameModule());
+
+		for (std::list<IMonitorModule *>::iterator it = lst.begin();
+				it != lst.end();
+				it++)
+		{
+			IMonitorModule *m = *it;
+
+			if (m->getType() == STRING)
+			{
+				std::cout << *reinterpret_cast<std::string *>(m->getData()) << std::endl;
+			}
+		}
 	}
 
 	return 0;

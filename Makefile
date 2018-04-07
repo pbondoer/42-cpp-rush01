@@ -6,7 +6,7 @@
 #    By: vsteffen <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/26 17:09:30 by vsteffen          #+#    #+#              #
-#    Updated: 2018/03/26 18:47:41 by vsteffen         ###   ########.fr        #
+#    Updated: 2018/04/07 19:20:38 by pbondoer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,9 @@ SRC =	main.cpp \
 		NcursesDisplay.cpp \
 		WxmacDisplay.cpp \
 		IMonitorModule.cpp \
-		IMonitorDisplay.cpp	
+		IMonitorDisplay.cpp \
+		HostnameModule.cpp
+
 
 OBJ_NAME = $(SRC:.cpp=.o)
 OBJ = $(addprefix $(OPATH),$(OBJ_NAME))
