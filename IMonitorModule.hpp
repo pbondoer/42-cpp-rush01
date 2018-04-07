@@ -2,6 +2,14 @@
 # define IMONITORMODULE_H
 
 # include <iostream>
+# include <sys/utsname.h>
+# include <sys/sysctl.h>
+# include <unistd.h>
+# include <climits>
+# include <ctime>
+# include <cstdio>
+# include <cstdlib>
+# include <sstream>
 
 enum ModuleType {
 	NONE,

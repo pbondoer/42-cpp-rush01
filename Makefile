@@ -23,8 +23,12 @@ SRC =	main.cpp \
 		WxmacDisplay.cpp \
 		IMonitorModule.cpp \
 		IMonitorDisplay.cpp \
-		HostnameModule.cpp
-
+		HostnameModule.cpp \
+		UsernameModule.cpp \
+		OsNameModule.cpp \
+		DateTimeModule.cpp \
+		CpuModule.cpp \
+		RamModule.cpp
 
 OBJ_NAME = $(SRC:.cpp=.o)
 OBJ = $(addprefix $(OPATH),$(OBJ_NAME))

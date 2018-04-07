@@ -3,6 +3,11 @@
 #include "WxmacDisplay.hpp"
 #include "IMonitorModule.hpp"
 #include "HostnameModule.hpp"
+#include "UsernameModule.hpp"
+#include "OsNameModule.hpp"
+#include "DateTimeModule.hpp"
+#include "RamModule.hpp"
+#include "CpuModule.hpp"
 
 int		main(int ac, char **av) {
 	if (ac > 1) {
@@ -22,6 +27,11 @@ int		main(int ac, char **av) {
 		std::list<IMonitorModule *> lst;
 
 		lst.push_back(new HostnameModule());
+		lst.push_back(new UsernameModule());
+		lst.push_back(new OsNameModule());
+		lst.push_back(new DateTimeModule());
+		lst.push_back(new RamModule());
+		lst.push_back(new CpuModule());
 
 		for (std::list<IMonitorModule *>::iterator it = lst.begin();
 				it != lst.end();
