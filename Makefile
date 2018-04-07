@@ -6,7 +6,7 @@
 #    By: vsteffen <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/26 17:09:30 by vsteffen          #+#    #+#              #
-#    Updated: 2018/04/07 19:20:38 by pbondoer         ###   ########.fr        #
+#    Updated: 2018/04/07 22:25:18 by pbondoer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ SRC =	main.cpp \
 		OsNameModule.cpp \
 		DateTimeModule.cpp \
 		CpuModule.cpp \
-		RamModule.cpp
+		RamModule.cpp \
+		NetworkModule.cpp
 
 OBJ_NAME = $(SRC:.cpp=.o)
 OBJ = $(addprefix $(OPATH),$(OBJ_NAME))

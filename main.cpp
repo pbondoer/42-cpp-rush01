@@ -8,6 +8,9 @@
 #include "DateTimeModule.hpp"
 #include "RamModule.hpp"
 #include "CpuModule.hpp"
+#include "NetworkModule.hpp"
+
+#include <unistd.h>
 
 int		main(int ac, char **av) {
 	if (ac > 1) {
@@ -32,18 +35,27 @@ int		main(int ac, char **av) {
 		lst.push_back(new DateTimeModule());
 		lst.push_back(new RamModule());
 		lst.push_back(new CpuModule());
+		lst.push_back(new NetworkModule());
 
+		IMonitorModule *m;
 		for (std::list<IMonitorModule *>::iterator it = lst.begin();
 				it != lst.end();
 				it++)
 		{
-			IMonitorModule *m = *it;
+			m = *it;
 
 			if (m->getType() == STRING)
 			{
 				std::cout << *reinterpret_cast<std::string *>(m->getData()) << std::endl;
 			}
 		}
+
+		for (int i = 0; i < 10; i++)
+		{
+			sleep(2);
+			std::cout << *reinterpret_cast<std::string *>(m->getData()) << std::endl;
+		}
+
 	}
 
 	return 0;
