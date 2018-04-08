@@ -18,27 +18,21 @@
 IMPLEMENT_APP_NO_MAIN(GKrellM_wxapp)
 
 int		main(int argc, char **argv) {
-	if (argc > 1) {
-		std::string  param1 = std::string(argv[1]);
+	std::string type = "tui";
 
-		if (param1 == std::string("graphical")) {
-			// handle graphical mode
+	if (argc > 1)
+		type = argv[1];
 
-			wxEntryStart( argc, argv );
-			wxTheApp->CallOnInit();
-			wxTheApp->OnRun();
-			wxTheApp->OnExit();
-			wxEntryCleanup();
-			return 0;
-		}
-		else {
-			std::cout << "Invalid command: " << param1 << std::endl;
-			std::cout << "Usage: ft_GKrellM graphical OR terminal (use terminal mode by default)" << param1 << std::endl;
-			return 1;
-		}
+	if (type.compare("gui") == 0)
+	{
+		wxEntryStart( argc, argv );
+		wxTheApp->CallOnInit();
+		wxTheApp->OnRun();
+		wxTheApp->OnExit();
+		wxEntryCleanup();
 	}
-	else {
-		// handle ncurses mode
+	else if (type.compare("tui") == 0)
+	{
 		NcursesDisplay nc;
 
 		nc.addModule(new HostnameModule());
@@ -54,6 +48,12 @@ int		main(int argc, char **argv) {
 			nc.updateAll();
 			napms(1000);
 		}
+	}
+	else
+	{
+		std::cout << "Invalid command: " << type << std::endl;
+		std::cout << "Usage: ft_GKrellM graphical OR terminal (use terminal mode by default)" << std::endl;
+		return 1;
 	}
 
 	return 0;

@@ -2,6 +2,21 @@
 #include "IMonitorModule.hpp"
 #include "Frame_wxapp.hpp"
 
+TextPanel::TextPanel(TextPanel const &rhs) { *this = rhs; }
+TextPanel::~TextPanel(void) {}
+
+TextPanel const &TextPanel::operator=(TextPanel const &obj)
+{
+	if (this == &obj)
+		return *this;
+
+	this->_module = obj._module;
+	this->_m_title = obj._m_title;
+	this->_m_content = obj._m_content;
+
+	return *this;
+}
+
 TextPanel::TextPanel(wxPanel * parent, WxmacDisplay *wxmac, IMonitorModule *module)
 	: wxPanel(parent, -1, wxPoint(-1, -1), wxSize(-1, -1), wxBORDER_SUNKEN),
 	_module(module)

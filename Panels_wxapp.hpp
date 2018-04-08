@@ -5,8 +5,12 @@
 class TextPanel : public wxPanel
 {
 public:
-    TextPanel(wxPanel *parent, WxmacDisplay *wxmac, IMonitorModule *m);
-	// virtual ~TextPanel();
+	TextPanel(wxPanel *parent, WxmacDisplay *wxmac, IMonitorModule *m);
+	TextPanel(TextPanel const &rhs);
+	~TextPanel(void);
+
+	TextPanel const &operator=(TextPanel const &obj);
+
 	void	update(wxPanel *parent, WxmacDisplay *wxmac) const;
 
 private:

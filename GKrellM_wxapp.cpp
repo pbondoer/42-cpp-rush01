@@ -1,11 +1,19 @@
 #include <iostream>
 #include "GKrellM_wxapp.hpp"
 #include "Frame_wxapp.hpp"
-// #include "Panels_wxapp.hpp"
+
+GKrellM_wxapp::GKrellM_wxapp(void) {}
+GKrellM_wxapp::GKrellM_wxapp(GKrellM_wxapp const &rhs) { *this = rhs; }
+GKrellM_wxapp::~GKrellM_wxapp(void) {}
+
+GKrellM_wxapp const &GKrellM_wxapp::operator=(GKrellM_wxapp const &)
+{
+	return *this;
+}
 
 bool GKrellM_wxapp::OnInit()
 {
-    Frame_wxapp *frame = new Frame_wxapp( "ft_GKrellM", wxPoint(20, 20), wxSize(1024, 720) );
-    frame->Show( true );
-    return true;
+	Frame_wxapp *frame = new Frame_wxapp( "ft_GKrellM" );
+	frame->Show( true );
+	return true;
 }

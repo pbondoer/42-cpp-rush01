@@ -14,20 +14,21 @@
 
 # include <list>
 
-class Frame_wxapp: public wxFrame {
+class Frame_wxapp : public wxFrame {
 
 public:
-    Frame_wxapp(const wxString& title, const wxPoint& pos, const wxSize& size);
+	Frame_wxapp(const wxString& title);
+	Frame_wxapp(Frame_wxapp const &rhs);
+	~Frame_wxapp(void);
 
-	void	OnTimer(wxTimerEvent& event);
+	Frame_wxapp const &operator=(Frame_wxapp const &rhs);
 
 private:
-    void	OnHello(wxCommandEvent& event);
-    void	OnExit(wxCommandEvent& event);
-    void	OnAbout(wxCommandEvent& event);
-	wxTimer		_m_timer;
-    wxDECLARE_EVENT_TABLE();
-	WxmacDisplay *_wxmac;
+	void	OnTimer(wxTimerEvent& event);
+
+	wxTimer			_m_timer;
+	wxDECLARE_EVENT_TABLE();
+	WxmacDisplay	*_wxmac;
 
 	// WIDGET
 	std::list<TextPanel *> _panels;
@@ -35,10 +36,6 @@ private:
 	wxPanel *_m_parent;
 };
 
-enum MenuCommand
-{
-	ID_Hello = 1,
-	TIMER_ID = 2
-};
+#define TIMER_ID 1
 
 #endif
