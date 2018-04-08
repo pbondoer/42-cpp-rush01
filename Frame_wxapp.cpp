@@ -10,13 +10,13 @@ Frame_wxapp::Frame_wxapp(const wxString& title, const wxPoint& pos, const wxSize
 
 	_wxmac = new WxmacDisplay();
 
-	_wxmac->pushModules(new HostnameModule());
-	_wxmac->pushModules(new UsernameModule());
-	_wxmac->pushModules(new OsNameModule());
-	_wxmac->pushModules(new DateTimeModule());
-	_wxmac->pushModules(new RamModule());
-	_wxmac->pushModules(new CpuModule());
-	_wxmac->pushModules(new NetworkModule());
+	_wxmac->addModule(new HostnameModule());
+	_wxmac->addModule(new UsernameModule());
+	_wxmac->addModule(new OsNameModule());
+	_wxmac->addModule(new DateTimeModule());
+	_wxmac->addModule(new RamModule());
+	_wxmac->addModule(new CpuModule());
+	_wxmac->addModule(new NetworkModule());
 
 	(void)size;
 	(void)pos;
@@ -31,41 +31,24 @@ Frame_wxapp::Frame_wxapp(const wxString& title, const wxPoint& pos, const wxSize
     wxMenuBar *menuBar = new wxMenuBar;
     menuBar->Append( menuFile, "&File" );
     menuBar->Append( menuHelp, "&Help" );
-    SetMenuBar( menuBar );
-    CreateStatusBar();
-    SetStatusText( "Wonderful message" );
-	wxPuts(wxGetHomeDir());
-	wxPuts(wxGetOsDescription());
-	wxPuts(wxGetUserName());
-	wxPuts(wxGetFullHostName());
-	wxDateTime now = wxDateTime::Now();
-	wxPrintf(wxT("Paris: %s\n"), now.Format(wxT("%a %T"),
-		wxDateTime::UTC).c_str());
-	long mem = wxGetFreeMemory().ToLong();
-	wxPrintf(wxT("Memory: %ld\n"), mem);
-
-
-	// BUTTON
-	// wxPanel *panel = new wxPanel(this, wxID_ANY);
-
 
 	// WIDGET
 	_m_parent = new wxPanel(this, wxID_ANY);
 	// m_bottom = new wxPanel(this, wxID_ANY);
 
+	// panels
 	wxBoxSizer *hbox = new wxBoxSizer(wxVERTICAL);
-    //
-	_m_1p = new FirstPanel(_m_parent, _wxmac, "General Informations");
-	_m_2p = new SecondPanel(_m_parent, _wxmac, "CPU module");
-	_m_3p = new ThirdPanel(_m_parent, _wxmac, "RAM module");
-	_m_4p = new FourthPanel(_m_parent, _wxmac, "Network module");
-	// // m_lp = new BottomPanel(m_bottom);
-    // //
-	hbox->Add(_m_1p, 1, wxEXPAND | wxALL, 5);
-	hbox->Add(_m_2p, 1, wxEXPAND | wxALL, 5);
-	hbox->Add(_m_3p, 1, wxEXPAND | wxALL, 5);
-	hbox->Add(_m_4p, 1, wxEXPAND | wxALL, 5);
-	// // hbox->Add(m_lp, 1, wxEXPAND | wxALL, 5);
+
+	const std::vector<IMonitorModule *> *lst = _wxmac->getModules();
+
+	for (std::vector<IMonitorModule *>::const_iterator it = lst->begin();
+			it != lst->end();
+			it++)
+	{
+		TextPanel *panel = new TextPanel(_m_parent, _wxmac, *it);
+		hbox->Add(panel, 1, wxEXPAND | wxALL, 5);
+		_panels.push_back(panel);
+	}
 
 	_m_parent->SetSizer(hbox);
 
@@ -105,10 +88,13 @@ void Frame_wxapp::OnHello(wxCommandEvent& event)
 
 void Frame_wxapp::OnTimer(wxTimerEvent& event)
 {
-	_m_1p->update(_m_parent, _wxmac);
-	_m_2p->update(_m_parent, _wxmac);
-	_m_3p->update(_m_parent, _wxmac);
-	_m_4p->update(_m_parent, _wxmac);
+	for (std::list<TextPanel *>::iterator it = _panels.begin();
+			it != _panels.end();
+			it++)
+	{
+		(*it)->update(_m_parent, _wxmac);
+	}
+
 	(void)event;
 }
 

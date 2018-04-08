@@ -39,36 +39,20 @@ int		main(int argc, char **argv) {
 	}
 	else {
 		// handle ncurses mode
-		std::list<IMonitorModule *> lst;
-
-		lst.push_back(new HostnameModule());
-		lst.push_back(new UsernameModule());
-		lst.push_back(new OsNameModule());
-		lst.push_back(new DateTimeModule());
-		lst.push_back(new RamModule());
-		lst.push_back(new CpuModule());
-		lst.push_back(new NetworkModule());
-
 		NcursesDisplay nc;
 
-		for (std::list<IMonitorModule *>::iterator it = lst.begin();
-				it != lst.end();
-				it++)
-		{
-			nc.addModule(*it);
-			nc.addWindow(*it);
-		}
+		nc.addModule(new HostnameModule());
+		nc.addModule(new UsernameModule());
+		nc.addModule(new OsNameModule());
+		nc.addModule(new DateTimeModule());
+		nc.addModule(new RamModule());
+		nc.addModule(new CpuModule());
+		nc.addModule(new NetworkModule());
 
 		while (true)
 		{
-			for (std::list<IMonitorModule *>::iterator it = lst.begin();
-					it != lst.end();
-					it++)
-			{
-				nc.updateWindow(*it);
-			}
-
-			napms(100);
+			nc.updateAll();
+			napms(1000);
 		}
 	}
 

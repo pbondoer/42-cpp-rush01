@@ -12,6 +12,8 @@
 # include "CpuModule.hpp"
 # include "NetworkModule.hpp"
 
+# include <list>
+
 class Frame_wxapp: public wxFrame {
 
 public:
@@ -28,15 +30,9 @@ private:
 	WxmacDisplay *_wxmac;
 
 	// WIDGET
-	FirstPanel *_m_1p;
-	SecondPanel *_m_2p;
-	ThirdPanel *_m_3p;
-	FourthPanel *_m_4p;
-	// BottomPanel *_m_lp;
+	std::list<TextPanel *> _panels;
 
 	wxPanel *_m_parent;
-	// wxPanel *_m_bottom;
-
 };
 
 enum MenuCommand

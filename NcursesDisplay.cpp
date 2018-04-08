@@ -6,7 +6,7 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/08 17:10:56 by pbondoer          #+#    #+#             */
-/*   Updated: 2018/04/08 20:26:40 by pbondoer         ###   ########.fr       */
+/*   Updated: 2018/04/08 21:53:25 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,17 @@ void NcursesDisplay::updateWindow(IMonitorModule *module)
 	wrefresh(win.ptr);
 }
 
-void NcursesDisplay::addWindow(IMonitorModule *module)
+void NcursesDisplay::updateAll(void)
+{
+	for (std::map<IMonitorModule *, Window>::iterator it = this->_windows.begin();
+			it != this->_windows.end();
+			it++)
+	{
+		this->updateWindow(it->first);
+	}
+}
+
+void NcursesDisplay::addModule(IMonitorModule *module)
 {
 	static Window last;
 

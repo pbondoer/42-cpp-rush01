@@ -5,7 +5,7 @@
 # include <iostream>
 # include <map>
 
-# include "MonitorDisplay.hpp"
+# include "IMonitorDisplay.hpp"
 
 struct Window {
 	WINDOW *ptr;
@@ -15,7 +15,7 @@ struct Window {
 	int height;
 };
 
-class	NcursesDisplay : public MonitorDisplay {
+class	NcursesDisplay : public IMonitorDisplay {
 
 public:
 	NcursesDisplay( void );
@@ -24,9 +24,11 @@ public:
 
 	NcursesDisplay & operator=( NcursesDisplay const & rhs);
 
-	void addWindow(IMonitorModule *module);
-	void updateWindow(IMonitorModule *module);
+	void addModule(IMonitorModule *module);
+	void updateAll(void);
 private:
+	void updateWindow(IMonitorModule *module);
+
 	std::map<IMonitorModule *, Window> _windows;
 	int _y;
 	int _x;

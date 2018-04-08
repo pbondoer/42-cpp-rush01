@@ -25,7 +25,7 @@ WxmacDisplay &		WxmacDisplay::operator=( WxmacDisplay const  & rhs ) {
 	return *this;
 }
 
-void						WxmacDisplay::pushModules( IMonitorModule * module ) {
+void						WxmacDisplay::addModule( IMonitorModule * module ) {
 	this->_modules.push_back(module);
 }
 
@@ -36,6 +36,7 @@ void *						WxmacDisplay::getDataModule( size_t index ) const {
 	return NULL;
 }
 
-std::vector<IMonitorModule*>	WxmacDisplay::getModules( void ) const {
-	return this->_modules;
+const std::vector<IMonitorModule*>	*WxmacDisplay::getModules( void ) const
+{
+	return &this->_modules;
 }

@@ -6,7 +6,7 @@
 #    By: vsteffen <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/26 17:09:30 by vsteffen          #+#    #+#              #
-#    Updated: 2018/04/08 19:40:50 by pbondoer         ###   ########.fr        #
+#    Updated: 2018/04/08 21:47:00 by pbondoer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,6 @@ SRC =	main.cpp \
 		WxmacDisplay.cpp \
 		IMonitorModule.cpp \
 		IMonitorDisplay.cpp \
-		MonitorDisplay.cpp \
 		HostnameModule.cpp \
 		UsernameModule.cpp \
 		OsNameModule.cpp \
