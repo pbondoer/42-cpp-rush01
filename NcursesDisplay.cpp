@@ -1,54 +1,119 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   NcursesDisplay.cpp                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/04/08 17:10:56 by pbondoer          #+#    #+#             */
+/*   Updated: 2018/04/08 20:26:40 by pbondoer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <ncurses.h>
 #include <iostream>
+
 #include "NcursesDisplay.hpp"
 
-NcursesDisplay::NcursesDisplay (void) {
-	std::cout << "Default constructor called" << std::endl;
-	this->_display = false;
-	return ;
+NcursesDisplay::NcursesDisplay(void)
+{
+	initscr(); // initialize ncurses
+	start_color(); // allow colors
+	cbreak(); // don't buffer the TTY
+	noecho(); // don't echo in TTY
+
+	curs_set(0); // hide cursor
+
+	// main window flags
+	keypad(stdscr, TRUE); // allow special keys
+	//nodelay(stdscr, TRUE); // dont block the main thread when querying keys
+	//scrollok(stdscr, FALSE); // dont allow scrolling the window
+
+	// get dimensions
+	getmaxyx(stdscr, this->_y, this->_x);
+
+	// init colors
+	init_color(COLOR_CYAN, 500, 500, 500);
+	init_pair(1, COLOR_CYAN, COLOR_BLACK);
+
+	refresh();
 }
 
-NcursesDisplay::NcursesDisplay ( NcursesDisplay const & src ) {
-	std::cout << "Copy constructor called" << std::endl;
+NcursesDisplay::~NcursesDisplay(void)
+{
+	// foreach win
+	// delwin(win)
+
+	endwin();
+}
+
+NcursesDisplay::NcursesDisplay(NcursesDisplay const &src)
+{
 	*this = src;
-	return ;
 }
 
-NcursesDisplay::~NcursesDisplay( void ) {
-	std::cout << "Destructor called" << std::endl;
-	return ;
-}
+NcursesDisplay	&NcursesDisplay::operator=( NcursesDisplay const  & rhs ) {
+	if (this == &rhs)
+		return *this;
 
-int				NcursesDisplay::getFoo( void ) const {
-	return this->_foo;
-}
-
-void			NcursesDisplay::setFoo( int foo ) {
-	this->_foo = foo;
-	return ;
-}
-
-NcursesDisplay &		NcursesDisplay::operator=( NcursesDisplay const  & rhs ) {
-	std::cout << "Assignment operator called" << std::endl;
-	if ( this != &rhs ) {
-		this->_modules = rhs._modules;
-		this->_config = rhs._config;
-		this->_display = rhs._display;
-	}
 	return *this;
 }
 
-int8_t		NcursesDisplay::getConfig( void ) const {
-	return this->_config;
+void NcursesDisplay::updateWindow(IMonitorModule *module)
+{
+	if (!this->_windows.count(module))
+		return;
+
+	Window win = this->_windows[module];
+
+	werase(win.ptr);
+
+	// title bar
+	wattron(win.ptr, COLOR_PAIR(1));
+	wmove(win.ptr, 0, 0);
+	whline(win.ptr, ACS_HLINE, COLS);
+	wmove(win.ptr, 0, 1);
+	waddstr(win.ptr, " ");
+	waddstr(win.ptr, module->getName().c_str());
+	waddstr(win.ptr, " ");
+	wattroff(win.ptr, COLOR_PAIR(1));
+
+	// content
+	if (module->getType() == STRING)
+	{
+		std::string *s = reinterpret_cast<std::string *>(module->getData());
+
+		wmove(win.ptr, 1, 0);
+		if (s->length() == 0)
+			waddstr(win.ptr, "...");
+		else
+			waddstr(win.ptr, s->c_str());
+	}
+
+	// display the window
+	wrefresh(win.ptr);
 }
 
-void		NcursesDisplay::setConfig( int8_t config ) {
-	this->_config = config;
-}
+void NcursesDisplay::addWindow(IMonitorModule *module)
+{
+	static Window last;
 
-bool		NcursesDisplay::getDisplay( void ) const {
-	return this->_display;
-}
+	int y = 0;
+	if (!this->_windows.empty())
+	{
+		y = last.y + last.height;
+	}
 
-void		NcursesDisplay::setDisplay( bool display ) {
-	this->_display = display;
+	Window win;
+
+	win.x = 0;
+	win.y = y;
+	win.width = COLS;
+	win.height = 3;
+	win.ptr = newwin(win.height, win.width, win.y, win.x);
+
+	this->_windows[module] = win;
+	last = win;
+
+	updateWindow(module);
 }

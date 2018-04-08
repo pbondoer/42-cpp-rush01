@@ -6,11 +6,12 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 19:07:33 by pbondoer          #+#    #+#             */
-/*   Updated: 2018/04/07 21:23:03 by pbondoer         ###   ########.fr       */
+/*   Updated: 2018/04/08 20:36:41 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "NetworkModule.hpp"
+#include "bytes.hpp"
 
 #include <cstdio>
 #include <sstream>
@@ -58,24 +59,29 @@ void *network(void *s)
 		long a;
 		std::stringstream ss(line);
 
-		ss >> a;
-		ss >> a;
-		ss >> input;
-		ss >> a;
-		ss >> a;
-		ss >> output;
+		ss >> a; // packets
+		ss >> a; // errs
+		ss >> input; // bytes
+		ss >> a; // packets
+		ss >> a; // errs
+		ss >> output; // bytes
 
 		std::stringstream ss2;
 
-		ss2 << input;
-		ss2 << " bytes in, ";
-		ss2 << output;
-		ss2 << " bytes out";
+		ss2 << bytes_format(input);
+		ss2 << "/s in, ";
+		ss2 << bytes_format(output);
+		ss2 << "/s out";
 
 		*reinterpret_cast<std::string *>(s) = ss2.str();
 	}
 
 	return s;
+}
+
+std::string NetworkModule::getName(void)
+{
+	return "Network";
 }
 
 void NetworkModule::_update(void)

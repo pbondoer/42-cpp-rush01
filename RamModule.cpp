@@ -1,18 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   RamModule.cpp                                 :+:      :+:    :+:   */
+/*   RamModule.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 19:07:33 by pbondoer          #+#    #+#             */
-/*   Updated: 2018/04/07 19:55:15 by pbondoer         ###   ########.fr       */
+/*   Updated: 2018/04/08 20:34:04 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "RamModule.hpp"
+#include "bytes.hpp"
 
 #include <unistd.h>
+#include <sstream>
+#include <iomanip>
 
 RamModule::RamModule(void) { this->_update(); }
 
@@ -40,11 +43,17 @@ void RamModule::_update(void)
 		return ;
 	}
 
+	int64_t total;
+	size_t size = sizeof(total);
+	if (sysctlbyname("hw.memsize", &total, &size, NULL, 0) < 0) {
+		this->_data = "error";
+		return ;
+	}
+
 	char buf[4096];
 
-	long total = 0;
 	long bytes = 0;
-	long mem_free = 0;
+	long used = 0;
 
 	while (fgets(buf, 4096, f) != NULL)
 	{
@@ -63,24 +72,31 @@ void RamModule::_update(void)
 			int a;
 			ss >> a;
 
-			total += a;
-
-			if (line.compare(0, 10, "Pages free") == 0)
-				mem_free = a;
+			if (line.compare(0, 12, "Pages active") == 0 ||
+					line.compare(0, 14, "Pages inactive") == 0)
+				used += a;
 		}
 
 		if (line.compare(0, 20, "\"Translation faults\"") == 0)
 			break;
 	}
 
+	used *= bytes;
+
 	std::stringstream ss;
 
- 	ss << ((total - mem_free) * bytes / 1024.0f / 1024.0f / 1024.0f) << " / " <<
-		 (total * bytes / 1024.0f / 1024.0f / 1024.0f) << " GB";
+ 	ss << bytes_format(used) << " / " << bytes_format(total) << " ("
+ 		<< std::setprecision(0) << std::fixed << (used / (double)total * 100)
+ 		<< "%)";
 
 	pclose(f);
 
 	this->_data = ss.str();
+}
+
+std::string RamModule::getName(void)
+{
+	return "Memory";
 }
 
 ModuleType RamModule::getType(void)
@@ -90,5 +106,7 @@ ModuleType RamModule::getType(void)
 
 void *RamModule::getData(void)
 {
+	this->_update();
+
 	return &this->_data;
 }

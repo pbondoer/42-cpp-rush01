@@ -49,25 +49,27 @@ int		main(int argc, char **argv) {
 		lst.push_back(new CpuModule());
 		lst.push_back(new NetworkModule());
 
-		IMonitorModule *m;
+		NcursesDisplay nc;
+
 		for (std::list<IMonitorModule *>::iterator it = lst.begin();
 				it != lst.end();
 				it++)
 		{
-			m = *it;
-
-			if (m->getType() == STRING)
-			{
-				std::cout << *reinterpret_cast<std::string *>(m->getData()) << std::endl;
-			}
+			nc.addModule(*it);
+			nc.addWindow(*it);
 		}
 
-		for (int i = 0; i < 10; i++)
+		while (true)
 		{
-			sleep(2);
-			std::cout << *reinterpret_cast<std::string *>(m->getData()) << std::endl;
-		}
+			for (std::list<IMonitorModule *>::iterator it = lst.begin();
+					it != lst.end();
+					it++)
+			{
+				nc.updateWindow(*it);
+			}
 
+			napms(100);
+		}
 	}
 
 	return 0;

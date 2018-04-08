@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   CpuModule.cpp                                 :+:      :+:    :+:   */
+/*   CpuModule.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 19:07:33 by pbondoer          #+#    #+#             */
-/*   Updated: 2018/04/07 19:55:15 by pbondoer         ###   ########.fr       */
+/*   Updated: 2018/04/08 19:19:19 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,11 @@ void CpuModule::_update(void)
 		return ;
 	}
 	this->_data = cpu;
+}
+
+std::string CpuModule::getName(void)
+{
+	return "Processor";
 }
 
 ModuleType CpuModule::getType(void)

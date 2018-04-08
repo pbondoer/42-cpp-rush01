@@ -6,7 +6,7 @@
 #    By: vsteffen <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/26 17:09:30 by vsteffen          #+#    #+#              #
-#    Updated: 2018/04/07 22:25:18 by pbondoer         ###   ########.fr        #
+#    Updated: 2018/04/08 19:40:50 by pbondoer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,10 +22,12 @@ WXCFLAG		= `wx-config --cxxflags`
 WXLIBFLAG	= `wx-config --libs`
 
 SRC =	main.cpp \
+		bytes.cpp \
 		NcursesDisplay.cpp \
 		WxmacDisplay.cpp \
 		IMonitorModule.cpp \
 		IMonitorDisplay.cpp \
+		MonitorDisplay.cpp \
 		HostnameModule.cpp \
 		UsernameModule.cpp \
 		OsNameModule.cpp \
@@ -47,7 +49,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@echo "Building $@"
-	@clang++ $(CFLAGS) $(OBJ) -o $@ $(WXCFLAG) $(WXLIBFLAG)
+	@clang++ $(CFLAGS) $(OBJ) -o $@ $(WXCFLAG) $(WXLIBFLAG) -lcurses
 
 $(OPATH)/%.o: $(CPATH)/%.cpp
 	@clang++ $(CFLAGS) -c $< -o $@ $(WXCFLAG)

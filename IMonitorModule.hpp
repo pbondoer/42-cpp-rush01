@@ -24,22 +24,7 @@ public:
 
 	virtual void			*getData(void) = 0;
 	virtual ModuleType		getType(void) = 0;
-
-	// bool		getRunning( void ) const {
-	// 	return this->_running;
-	// }
-    //
-	// void		setRunning( bool running ) {
-	// 	this->_running = running;
-	// }
-    //
-	// void		setRunning( void ) {
-	// 	if (this->_running) {
-	// 		this->_running = false;
-	// 		return ;
-	// 	}
-	// 	this->_running = true;
-	// }
+	virtual std::string		getName(void) = 0;
 
 protected:
 	virtual void	_update(void) = 0;

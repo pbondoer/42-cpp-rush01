@@ -6,7 +6,7 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 19:07:33 by pbondoer          #+#    #+#             */
-/*   Updated: 2018/04/07 19:55:15 by pbondoer         ###   ########.fr       */
+/*   Updated: 2018/04/08 18:38:57 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ void UsernameModule::_update(void)
 	char username[_POSIX_LOGIN_NAME_MAX];
 	getlogin_r(username, _POSIX_LOGIN_NAME_MAX);
 	this->_data = username;
+}
+
+std::string UsernameModule::getName(void)
+{
+	return "Username";
 }
 
 ModuleType UsernameModule::getType(void)

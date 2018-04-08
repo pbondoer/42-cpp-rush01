@@ -6,7 +6,7 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 19:07:52 by pbondoer          #+#    #+#             */
-/*   Updated: 2018/04/07 20:32:57 by pbondoer         ###   ########.fr       */
+/*   Updated: 2018/04/08 19:21:02 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ class NetworkModule : public IMonitorModule
 
 		ModuleType	getType(void);
 		void		*getData(void);
+		std::string	getName(void);
+
 	private:
 		RotatingArray<int> _data;
 		void		_update(void);

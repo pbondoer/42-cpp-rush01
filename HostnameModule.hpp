@@ -6,7 +6,7 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 19:07:52 by pbondoer          #+#    #+#             */
-/*   Updated: 2018/04/07 19:55:58 by pbondoer         ###   ########.fr       */
+/*   Updated: 2018/04/08 19:20:11 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ class HostnameModule : public IMonitorModule
 
 		ModuleType	getType(void);
 		void		*getData(void);
+		std::string	getName(void);
+
 	private:
 		std::string	_data;
 		void		_update(void);

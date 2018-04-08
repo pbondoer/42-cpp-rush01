@@ -6,7 +6,7 @@
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 19:07:33 by pbondoer          #+#    #+#             */
-/*   Updated: 2018/04/07 19:55:15 by pbondoer         ###   ########.fr       */
+/*   Updated: 2018/04/08 19:36:39 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,11 @@ void DateTimeModule::_update(void)
 	this->_data = s;
 }
 
+std::string DateTimeModule::getName(void)
+{
+	return "Date & Time";
+}
+
 ModuleType DateTimeModule::getType(void)
 {
 	return STRING;
@@ -48,5 +53,7 @@ ModuleType DateTimeModule::getType(void)
 
 void *DateTimeModule::getData(void)
 {
+	this->_update();
+
 	return &this->_data;
 }

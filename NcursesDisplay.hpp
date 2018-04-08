@@ -1,10 +1,21 @@
 #ifndef NCURSESDISPLAY_H
 # define NCURSESDISPLAY_H
 
+# include <ncurses.h>
 # include <iostream>
-# include "IMonitorDisplay.hpp"
+# include <map>
 
-class	NcursesDisplay : public IMonitorDisplay {
+# include "MonitorDisplay.hpp"
+
+struct Window {
+	WINDOW *ptr;
+	int x;
+	int y;
+	int width;
+	int height;
+};
+
+class	NcursesDisplay : public MonitorDisplay {
 
 public:
 	NcursesDisplay( void );
@@ -13,36 +24,12 @@ public:
 
 	NcursesDisplay & operator=( NcursesDisplay const & rhs);
 
-	int		getFoo( void ) const ;
-	void	setFoo( int const foo );
-
-	void		pushModules( IMonitorModule & module ) {
-		this->_modules.push_back(&module);
-	}
-
-	void		swapModules(size_t indexModule, size_t indexToSwap) {
-		(void)indexModule;
-		(void)indexToSwap;
-		// std::list<IMonitorModule>::iterator it1 = this->_modules.begin();
-		// std::list<IMonitorModule>::iterator it2 = this->_modules.begin();
-		//
-		// it1 = this->_modules.begin() + (indexModule - 1);
-		//
-		// IMonitorModule		*tmp = it1;
-		// it1 = it2;
-		// it2 = *tmp;
-	}
-
-	int8_t		getConfig( void ) const;
-	void		setConfig( int8_t config );
-
-	bool		getDisplay( void ) const;
-	void		setDisplay( bool display );
-
+	void addWindow(IMonitorModule *module);
+	void updateWindow(IMonitorModule *module);
 private:
-	int		_foo;
-
+	std::map<IMonitorModule *, Window> _windows;
+	int _y;
+	int _x;
 };
-
 
 #endif

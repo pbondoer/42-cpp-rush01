@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   OsNameModule.cpp                                 :+:      :+:    :+:   */
+/*   OsNameModule.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbondoer <pbondoer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/07 19:07:33 by pbondoer          #+#    #+#             */
-/*   Updated: 2018/04/07 19:55:15 by pbondoer         ###   ########.fr       */
+/*   Updated: 2018/04/08 18:39:21 by pbondoer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ void OsNameModule::_update(void)
 	struct utsname uts;
 	uname(&uts);
 	this->_data = uts.version;
+}
+
+std::string OsNameModule::getName(void)
+{
+	return "Operating System";
 }
 
 ModuleType OsNameModule::getType(void)
