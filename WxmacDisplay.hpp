@@ -3,6 +3,7 @@
 
 # include <iostream>
 # include "IMonitorDisplay.hpp"
+# include <vector>
 # include <wx/wx.h>
 
 class	WxmacDisplay : public IMonitorDisplay {
@@ -14,17 +15,18 @@ public:
 
 	WxmacDisplay & operator=( WxmacDisplay const & rhs);
 
-	int		getFoo( void ) const ;
-	void	setFoo( int const foo );
-
-	void		pushModules( IMonitorModule & module ) {
-		this->_modules.push_back(&module);
-	}
+	void		pushModules( IMonitorModule * module );
 
 	void		swapModules(size_t indexModule, size_t indexToSwap) {
 		(void)indexModule;
 		(void)indexToSwap;
 	}
+
+	std::vector<IMonitorModule*>	getModules( void ) const;
+	IMonitorModule*				getModules( size_t index ) const;
+
+	void *						getDataModule( size_t index ) const;
+
 
 	int8_t		getConfig( void ) const;
 	void		setConfig( int8_t config );
@@ -33,7 +35,9 @@ public:
 	void		setDisplay( bool display );
 
 private:
-	int		_foo;
+	std::vector<IMonitorModule*>	_modules;
+	int8_t						_config;
+	bool						_display;
 
 };
 

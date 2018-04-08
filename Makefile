@@ -34,7 +34,9 @@ SRC =	main.cpp \
 		RamModule.cpp \
 		NetworkModule.cpp \
 		GKrellM_wxapp.cpp \
-		Frame_wxapp.cpp
+		Frame_wxapp.cpp \
+		Panels_wxapp.cpp
+		# Button_wxapp.cpp
 
 OBJ_NAME = $(SRC:.cpp=.o)
 OBJ = $(addprefix $(OPATH),$(OBJ_NAME))

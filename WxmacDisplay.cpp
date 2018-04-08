@@ -18,15 +18,6 @@ WxmacDisplay::~WxmacDisplay( void ) {
 	return ;
 }
 
-int				WxmacDisplay::getFoo( void ) const {
-	return this->_foo;
-}
-
-void			WxmacDisplay::setFoo( int foo ) {
-	this->_foo = foo;
-	return ;
-}
-
 WxmacDisplay &		WxmacDisplay::operator=( WxmacDisplay const  & rhs ) {
 	std::cout << "Assignment operator called" << std::endl;
 	if ( this != &rhs ) {
@@ -35,6 +26,21 @@ WxmacDisplay &		WxmacDisplay::operator=( WxmacDisplay const  & rhs ) {
 		this->_display = rhs._display;
 	}
 	return *this;
+}
+
+void						WxmacDisplay::pushModules( IMonitorModule * module ) {
+	this->_modules.push_back(module);
+}
+
+void *						WxmacDisplay::getDataModule( size_t index ) const {
+	std::cout << "-----------------" << std::endl;
+	std::cout << this->_modules[index] << "  " << STRING << std::endl;
+//	return this->_modules[index]->getData();
+	return NULL;
+}
+
+std::vector<IMonitorModule*>	WxmacDisplay::getModules( void ) const {
+	return this->_modules;
 }
 
 int8_t		WxmacDisplay::getConfig( void ) const {
