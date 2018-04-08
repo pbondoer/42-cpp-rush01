@@ -18,6 +18,9 @@ ROOT  	=	.
 OPATH 	=	$(ROOT)/
 CPATH 	=	$(ROOT)/
 
+WXCFLAG		= `wx-config --cxxflags`
+WXLIBFLAG	= `wx-config --libs`
+
 SRC =	main.cpp \
 		NcursesDisplay.cpp \
 		WxmacDisplay.cpp \
@@ -29,7 +32,9 @@ SRC =	main.cpp \
 		DateTimeModule.cpp \
 		CpuModule.cpp \
 		RamModule.cpp \
-		NetworkModule.cpp
+		NetworkModule.cpp \
+		GKrellM_wxapp.cpp \
+		Frame_wxapp.cpp
 
 OBJ_NAME = $(SRC:.cpp=.o)
 OBJ = $(addprefix $(OPATH),$(OBJ_NAME))
@@ -40,10 +45,10 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@echo "Building $@"
-	@clang++ $(CFLAGS) $(OBJ) -o $@
+	@clang++ $(CFLAGS) $(OBJ) -o $@ $(WXCFLAG) $(WXLIBFLAG)
 
 $(OPATH)/%.o: $(CPATH)/%.cpp
-	@clang++ $(CFLAGS) -c $< -o $@
+	@clang++ $(CFLAGS) -c $< -o $@ $(WXCFLAG)
 
 clean:
 	@echo "Clean rule"

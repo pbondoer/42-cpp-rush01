@@ -9,15 +9,27 @@
 #include "RamModule.hpp"
 #include "CpuModule.hpp"
 #include "NetworkModule.hpp"
+#include "WxmacDisplay.hpp"
+#include "GKrellM_wxapp.hpp"
+#include "Frame_wxapp.hpp"
 
 #include <unistd.h>
 
-int		main(int ac, char **av) {
-	if (ac > 1) {
-		std::string  param1 = std::string(av[1]);
+IMPLEMENT_APP_NO_MAIN(GKrellM_wxapp)
+
+int		main(int argc, char **argv) {
+	if (argc > 1) {
+		std::string  param1 = std::string(argv[1]);
 
 		if (param1 == std::string("graphical")) {
 			// handle graphical mode
+
+			wxEntryStart( argc, argv );
+			wxTheApp->CallOnInit();
+			wxTheApp->OnRun();
+			wxTheApp->OnExit();
+			wxEntryCleanup();
+			return 0;
 		}
 		else {
 			std::cout << "Invalid command: " << param1 << std::endl;

@@ -3,6 +3,7 @@
 
 # include <iostream>
 # include "IMonitorDisplay.hpp"
+# include <wx/wx.h>
 
 class	WxmacDisplay : public IMonitorDisplay {
 
