@@ -6,59 +6,64 @@
 #    By: vsteffen <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/26 17:09:30 by vsteffen          #+#    #+#              #
-#    Updated: 2018/04/08 21:47:00 by pbondoer         ###   ########.fr        #
+#    Updated: 2018/10/07 18:53:06 by pbondoer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = ft_GKrellM
+NAME		:= ft_GKrellM
 
-CFLAGS = -Wall -Wextra -Werror -g -std=c++98
+# directories
+INC_DIR		:= ./includes
+SRC_DIR		:= ./src
+OBJ_DIR		:= ./obj
 
-ROOT  	=	.
-OPATH 	=	$(ROOT)/
-CPATH 	=	$(ROOT)/
+# src / obj files
+SRC 		:=	main.cpp \
+				bytes.cpp \
+				NcursesDisplay.cpp \
+				WxmacDisplay.cpp \
+				IMonitorModule.cpp \
+				IMonitorDisplay.cpp \
+				HostnameModule.cpp \
+				UsernameModule.cpp \
+				OsNameModule.cpp \
+				DateTimeModule.cpp \
+				CpuModule.cpp \
+				RamModule.cpp \
+				NetworkModule.cpp \
+				GKrellM_wxapp.cpp \
+				Frame_wxapp.cpp \
+				Panels_wxapp.cpp
+
+OBJ			:= $(addprefix $(OBJ_DIR)/,$(SRC:.cpp=.o))
+
+# compiler
+CXX			:= clang++
+CXXFLAGS	:= -Wall -Wextra -Werror
+CXXFLAGS	+= -O3 -march=native -pipe -flto
 
 WXCFLAG		= `wx-config --cxxflags`
 WXLIBFLAG	= `wx-config --libs`
 
-SRC =	main.cpp \
-		bytes.cpp \
-		NcursesDisplay.cpp \
-		WxmacDisplay.cpp \
-		IMonitorModule.cpp \
-		IMonitorDisplay.cpp \
-		HostnameModule.cpp \
-		UsernameModule.cpp \
-		OsNameModule.cpp \
-		DateTimeModule.cpp \
-		CpuModule.cpp \
-		RamModule.cpp \
-		NetworkModule.cpp \
-		GKrellM_wxapp.cpp \
-		Frame_wxapp.cpp \
-		Panels_wxapp.cpp
-		# Button_wxapp.cpp
-
-OBJ_NAME = $(SRC:.cpp=.o)
-OBJ = $(addprefix $(OPATH),$(OBJ_NAME))
-
 .PHONY: all clean fclean re
 
-all: $(NAME)
+all: $(OBJ_DIR) $(NAME)
+
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
+$(OBJ_DIR)/%.o:$(SRC_DIR)/%.cpp
+	$(CXX) $(CXXFLAGS) $(WXCFLAG) -I $(INC_DIR) -o $@ -c $<
 
 $(NAME): $(OBJ)
-	@echo "Building $@"
-	@clang++ $(CFLAGS) $(OBJ) -o $@ $(WXCFLAG) $(WXLIBFLAG) -lcurses
-
-$(OPATH)/%.o: $(CPATH)/%.cpp
-	@clang++ $(CFLAGS) -c $< -o $@ $(WXCFLAG)
+	$(CXX) -o $(NAME) $(OBJ) $(WXCFLAG) $(WXLIBFLAG) -lcurses
 
 clean:
-	@echo "Clean rule"
-	@rm -f $(OBJ)
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
-	@echo "Fclean rule"
-	@rm -f $(NAME)
+	rm -f $(NAME)
 
-re: fclean all
+re:
+	@$(MAKE) fclean --no-print-directory
+	@$(MAKE) all --no-print-directory
